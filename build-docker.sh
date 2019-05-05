@@ -1,4 +1,5 @@
 #!/bin/bash -e
+PRESERVE_CONTAINER=1
 
 BUILD_OPTS="$*"
 

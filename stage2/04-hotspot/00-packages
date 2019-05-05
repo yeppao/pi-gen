@@ -1,0 +1,3 @@
+iptables dnsmasq hostapd
+docker docker-compose
+git
