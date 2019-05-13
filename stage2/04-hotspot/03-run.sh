@@ -11,6 +11,9 @@ install -v -m 755 files/iptables-save "${ROOTFS_DIR}/etc/"
 # Network
 install -v -m 755 files/network/interfaces "${ROOTFS_DIR}/etc/network/"
 
+# Dashboard
+install -v -m 644 files/systemd/system/dashboard.service "${ROOTFS_DIR}/lib/systemd/system/"
+
 on_chroot << EOF
 sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 
@@ -22,12 +25,13 @@ echo "exit 0;" >> /etc/network/if-up.d/iptables
 
 curl -sSL https://get.docker.com | sh
 usermod -aG docker nadia
-curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -  # Install NodeJS v10
-sudo apt-get install -y nodejs
+curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+apt-get install -y nodejs
 npm install npm@latest -g
-mkdir -p /home/nadia/Projects/
-cd /home/nadia/Projects/
-git clone https://github.com/yeppao/rpi-dashboard.git
-cd rpi-dashboard
+mkdir -p /home/nadia/Projects/ && cd /home/nadia/Projects/
+git clone https://github.com/yeppao/rpi-dashboard.git && cd rpi-dashboard
 npm install
+
+systemctl daemon-reload
+systemctl enable dashboard.service
 EOF

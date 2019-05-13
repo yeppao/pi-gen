@@ -1,0 +1,10 @@
+[Unit]
+Description=Dashboard Service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/local/bin/npm run --prefix /home/nadia/Projects/rpi-dashboard build && /usr/local/bin/npm run --prefix /home/nadia/Projects/rpi-dashboard dev
+
+[Install]
+WantedBy=multi-user.target
